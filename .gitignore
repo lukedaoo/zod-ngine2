@@ -1,0 +1,6 @@
+.cache
+build-*
+.config
+subprojects/packagecache/
+subprojects/*/
+!subprojects/*.wrap

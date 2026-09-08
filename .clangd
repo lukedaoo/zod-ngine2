@@ -1,0 +1,15 @@
+CompileFlags:
+  Add:
+    - -std=c++23
+    - -Wall
+    - -Wextra
+  Remove:
+    - -fmodules-ts
+    - -fmodule-mapper=*
+    - -fdeps-format=*
+Index:
+  Background: Build
+Diagnostics:
+  Suppress:
+    - unused-includes
+    - macro-redefined
