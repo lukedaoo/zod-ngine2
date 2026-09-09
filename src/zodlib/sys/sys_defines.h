@@ -1,0 +1,4 @@
+#pragma once
+
+#define MAX_STRING_CHARS 1024
+#define MAX_PRINT_MESSAGE_CHARS 1024 * 10

@@ -1,22 +1,10 @@
-#include <concepts>
 #include <iostream>
-#include <span>
-#include <vector>
 
-template <typename T>
-    requires std::integral<T>
-void print_elements(std::span<const T> container) {
-    for (const auto& item : container) {
-        std::cout << item << ' ';
-    }
-    std::cout << '\n';
-}
+#include "zodlib/precompiled.h"
 
 int main() {
-    std::vector<int> numbers = {1, 2, 3, 4, 5};
+    i8 a = 12;
 
-    std::cout << "Testing C++23 features:\n";
-    print_elements<int>(numbers);
-
+    std::cout << static_cast<int>(a) << std::endl;
     return 0;
 }

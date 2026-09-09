@@ -4,3 +4,4 @@ build-*
 subprojects/packagecache/
 subprojects/*/
 !subprojects/*.wrap
+*.o
