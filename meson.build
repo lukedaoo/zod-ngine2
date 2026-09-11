@@ -19,6 +19,7 @@ unittest_cpp_dep = dependency('unittest-cpp')
 
 test_files = {
   'test_zarray' : {'src' : 'tests/test_zarray.cpp', 'suite' : 'zodlib'},
+  'test_defer'  : {'src' : 'tests/test_defer.cpp', 'suite' : 'zodlib'},
 }
 
 foreach test_name, cfg : test_files

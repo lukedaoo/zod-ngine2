@@ -9,16 +9,14 @@ class zArray {
 private:
     _type_ m_elements[_number_elements_];
 public:
-    zArray() {}
-
     int  num() const { return _number_elements_; }
 
     int  byte_size() const { return sizeof(m_elements); }
 
-    void zero() { memset(m_elements, ZERO_MEMORY, sizeof(m_elements)); }
+    void zero() { memset((void*)m_elements, ZERO_MEMORY, sizeof(m_elements)); }
 
     void fill(const char value) {
-        memset(m_elements, value, sizeof(m_elements));
+        memset((void*)m_elements, value, sizeof(m_elements));
     }
 
     const _type_& operator[](int index) const {
@@ -51,8 +49,6 @@ class zArray2D {
 private:
     zArray<zArray<_type_, _dim2_>, _dim1_> m_grid;
 public:
-    zArray2D() {}
-
     int  num_rows() const { return _dim1_; }
     int  num_cols() const { return _dim2_; }
 
@@ -69,3 +65,4 @@ public:
         return m_grid[index];
     }
 };
+

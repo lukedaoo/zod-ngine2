@@ -9,3 +9,6 @@
 #else
 #define ZERO_MEMORY 0
 #endif
+
+#define CONCAT_(a, b) a##b
+#define CONCAT(a, b)  CONCAT_(a, b)
