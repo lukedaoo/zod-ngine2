@@ -13,7 +13,11 @@ if get_option('debug')
   add_project_arguments('-D_DEBUG', language : 'cpp')
 endif
 
-zodlib_src = files('src/zodlib/sys/sys_mem.cpp', 'src/zodlib/sys/sys_mem_area.cpp')
+zodlib_src = files(
+  'src/zodlib/sys/sys_mem.cpp',
+  'src/zodlib/sys/sys_mem_area.cpp',
+  'src/zodlib/sys/sys_mem_tracker.cpp',
+)
 
 executable('zod-ngine2', 'main.cpp', zodlib_src, include_directories : inc)
 

@@ -28,3 +28,15 @@ inline void assert_failed(const char* file, int line, const char* expr) {
 #undef assert
 #endif
 #define assert(x) zassert(x)
+
+#if defined(_DEBUG)
+#define strict_assert(x) zassert(x)
+#else
+#define strict_assert(x)                                        \
+    {                                                           \
+        if (!(x)) {                                             \
+            std::fprintf(stderr, "ASSERTION FAILED: %s\n", #x); \
+            std::abort();                                       \
+        }                                                       \
+    }
+#endif

@@ -4,6 +4,7 @@ test_files = {
   'test_zarray' : {'src' : 'test_zarray.cpp', 'suite' : 'zodlib'},
   'test_defer'  : {'src' : 'test_defer.cpp', 'suite' : 'zodlib'},
   'test_mem'    : {'src' : 'test_mem.cpp', 'suite' : 'zodlib'},
+  'test_mem_area' : {'src' : 'test_mem_area.cpp', 'suite' : 'zodlib'},
 }
 
 foreach test_name, cfg : test_files

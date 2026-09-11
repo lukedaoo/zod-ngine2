@@ -83,20 +83,21 @@ int main() {
               << " total_deallocations=" << final_summary.total_deallocations
               << "\n";
 
+    sys_mem_set_verbose_logging(true);
     // Block usage: one tracked allocation backing several logical values,
     // carved up manually and freed all at once.
-    int  block_size = sizeof(int) * 4;
-    void* block     = sys_mem_alloc(block_size, MemTag::GENERAL);
+    int   block_size = sizeof(int) * 4;
+    void* block      = sys_mem_alloc(block_size, MemTag::GENERAL);
 
-    int* block_a = (int*)block;
-    int* block_b = block_a + 1;
-    int* block_c = block_a + 2;
-    int* block_d = block_a + 3;
+    int* block_a     = (int*)block;
+    int* block_b     = block_a + 1;
+    int* block_c     = block_a + 2;
+    int* block_d     = block_a + 3;
 
-    *block_a = 1;
-    *block_b = 2;
-    *block_c = 3;
-    *block_d = 4;
+    *block_a         = 1;
+    *block_b         = 2;
+    *block_c         = 3;
+    *block_d         = 4;
 
     std::cout << "block: " << *block_a << " " << *block_b << " " << *block_c
               << " " << *block_d << "\n";
@@ -119,9 +120,9 @@ int main() {
 
     zArea area = sys_mem_area_create(4096, MemTag::GENERAL);
 
-    int*    n = area.put(42);
-    Vec3*   v = area.put(Vec3{1.0f, 2.0f, 3.0f});
-    Entity* e = area.put(Entity(7, "player"));
+    int*    n  = area.put(42);
+    Vec3*   v  = area.put(Vec3{1.0f, 2.0f, 3.0f});
+    Entity* e  = area.put(Entity(7, "player"));
 
     std::cout << "area: n=" << *n << " v=(" << v->x << "," << v->y << ","
               << v->z << ") e=" << e->id << ":" << e->name << "\n";
