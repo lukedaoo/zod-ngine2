@@ -1,0 +1,12 @@
+help:
+	@printf "zod-ngine2 make targets\n\n"
+	@printf "debug\n   configure debug build\n\n"
+	@printf "release\n   configure release build\n\n"
+	@printf "build\n   ninja build in current build dir\n\n"
+	@printf "run\n   build and run zod-ngine2\n\n"
+	@printf "test\n   run all tests\n   example: make test\n\n"
+	@printf "test-file FILE=<name>\n   run one test file's binary\n   example: make test-file FILE=test_zarray\n\n"
+	@printf "test-suite FILE=<name> SUITE=<suite>\n   run one suite inside one test binary\n   example: make test-suite FILE=test_zarray SUITE=zarray\n\n"
+	@printf "test-tag SUITE=<suite>\n   run every test tagged with a meson suite\n   example: make test-tag SUITE=unit\n\n"
+	@printf "test-gxx FILE=<name> [SUITE=<suite>]\n   compile+run one test file with g++, no meson\n   example: make test-gxx FILE=test_zarray SUITE=zarray\n\n"
+	@printf "clean\n   remove build dirs and .config\n"

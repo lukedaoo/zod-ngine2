@@ -1,7 +1,9 @@
 .cache
-build-*
+build-*/
 .config
 subprojects/packagecache/
 subprojects/*/
 !subprojects/*.wrap
 *.o
+
+compile_commands.json
