@@ -17,7 +17,9 @@ public:
 
     void zero() { memset(m_elements, ZERO_MEMORY, sizeof(m_elements)); }
 
-    void fill(const char value) { memset(m_elements, value, sizeof(m_elements)); }
+    void fill(const char value) {
+        memset(m_elements, value, sizeof(m_elements));
+    }
 
     const _type_& operator[](int index) const {
         assert((unsigned)index < _number_elements_);
@@ -51,12 +53,12 @@ private:
 public:
     zArray2D() {}
 
-    int                           num_rows() const { return _dim1_; }
-    int                           num_cols() const { return _dim2_; }
+    int  num_rows() const { return _dim1_; }
+    int  num_cols() const { return _dim2_; }
 
-    int                           byte_size() const { return m_grid.byte_size(); }
+    int  byte_size() const { return m_grid.byte_size(); }
 
-    void                          zero() { m_grid.zero(); }
+    void zero() { m_grid.zero(); }
 
     const zArray<_type_, _dim2_>& operator[](int index) const {
         assert((unsigned)index < _dim1_);

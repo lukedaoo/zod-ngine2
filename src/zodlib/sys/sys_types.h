@@ -29,10 +29,10 @@ typedef u16                uint16;
 typedef u32                uint32;
 typedef u64                uint64;
 
-typedef u8                 $1;  // 1 byte
-typedef u16                $2;  // 2 bytes
-typedef u32                $4;  // 4 bytes
-typedef u64                $8;  // 8 bytes
+typedef u8                 _1byte;
+typedef u16                _2byte;
+typedef u32                _4byte;
+typedef u64                _8byte;
 
 typedef __SIZE_TYPE__      usize;
 
@@ -69,10 +69,10 @@ assert_sizeof(u16, 2);
 assert_sizeof(u32, 4);
 assert_sizeof(u64, 8);
 
-assert_sizeof($1, 1);
-assert_sizeof($2, 2);
-assert_sizeof($4, 4);
-assert_sizeof($8, 8);
+assert_sizeof(_1byte, 1);
+assert_sizeof(_2byte, 2);
+assert_sizeof(_4byte, 4);
+assert_sizeof(_8byte, 8);
 
 assert_sizeof(usize, sizeof(void*));
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "sys_included.h"
+#include "sys_includes.h"
 
 #define assert_sizeof(type, size) \
     static_assert(sizeof(type) == (size), #type " must be " #size " bytes")
@@ -11,12 +11,13 @@ inline void assert_failed(const char* file, int line, const char* expr) {
     std::abort();
 }
 
+// x is dropped entirely in release - never pass an expression with side effects.
 #if defined(_DEBUG)
-#define zassert(x)                                \
-    {                                             \
-        if (!(x)) {                               \
+#define zassert(x)                                 \
+    {                                              \
+        if (!(x)) {                                \
             assert_failed(__FILE__, __LINE__, #x); \
-        }                                         \
+        }                                          \
     }
 #else
 #define zassert(x) ((void)0)

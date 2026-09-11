@@ -20,12 +20,27 @@ SUITE(zarray) {
     }
 
     TEST(test_zarray_zero) {
-        zArray<int, 10> arr;
+        zArray<unsigned char, 10> arr;
         arr.fill(1);
         arr.zero();
         for (int i = 0; i < arr.num(); ++i) {
-            CHECK_EQUAL(arr[i], 0);
+            CHECK_EQUAL(arr[i], (unsigned char)ZERO_MEMORY);
         }
+    }
+
+    // zero() must poison memory with ZERO_MEMORY (default: 0xCD) in debug
+    // builds, not just clear it, so uninitialized reads are easy to spot in a
+    // debugger.
+    // @see: zodlib/sys/sys_defines.h
+    TEST(test_zarray_zero_debug_pattern) {
+#if defined(_DEBUG)
+        zArray<unsigned char, 10> arr;
+        arr.fill(0);
+        arr.zero();
+        for (int i = 0; i < arr.num(); ++i) {
+            CHECK_EQUAL(arr[i], (unsigned char)ZERO_MEMORY);
+        }
+#endif
     }
 
     TEST(test_zarray_fill) {
@@ -44,6 +59,23 @@ SUITE(zarray) {
         CHECK_EQUAL(arr[0], 1);
         CHECK_EQUAL(arr[1], 2);
         CHECK_EQUAL(arr[2], 3);
+    }
+
+    TEST(test_zarray_update) {
+        zArray<int, 3> arr;
+        arr[0] = 1;
+        arr[1] = 2;
+        arr[2] = 3;
+        CHECK_EQUAL(arr[0], 1);
+        CHECK_EQUAL(arr[1], 2);
+        CHECK_EQUAL(arr[2], 3);
+
+        arr[0] = 4;
+        arr[1] = 5;
+        arr[2] = 6;
+        CHECK_EQUAL(arr[0], 4);
+        CHECK_EQUAL(arr[1], 5);
+        CHECK_EQUAL(arr[2], 6);
     }
 
     TEST(test_zarray2d_dimensions) {
@@ -68,13 +100,13 @@ SUITE(zarray) {
     }
 
     TEST(test_zarray2d_zero) {
-        zArray2D<int, 2, 2> grid;
+        zArray2D<unsigned char, 2, 2> grid;
         grid[0][0] = 1;
         grid[1][1] = 1;
         grid.zero();
         for (int r = 0; r < grid.num_rows(); ++r) {
             for (int c = 0; c < grid.num_cols(); ++c) {
-                CHECK_EQUAL(grid[r][c], 0);
+                CHECK_EQUAL(grid[r][c], (unsigned char)ZERO_MEMORY);
             }
         }
     }

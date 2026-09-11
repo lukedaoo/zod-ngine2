@@ -9,12 +9,16 @@ project('zod-ngine2', 'cpp',
 
 inc = include_directories('src')
 
+if get_option('debug')
+  add_project_arguments('-D_DEBUG', language : 'cpp')
+endif
+
 executable('zod-ngine2', 'main.cpp', include_directories : inc)
 
 unittest_cpp_dep = dependency('unittest-cpp')
 
 test_files = {
-  'test_zarray' : {'src' : 'tests/test_zarray.cpp', 'suite' : 'unit'},
+  'test_zarray' : {'src' : 'tests/test_zarray.cpp', 'suite' : 'zodlib'},
 }
 
 foreach test_name, cfg : test_files
