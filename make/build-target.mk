@@ -1,12 +1,12 @@
 debug:
 	sed -i "s/^buildtype = .*/buildtype = 'debug'/" $(NATIVE_FILE)
 	echo build-debug > $(STATE_FILE)
-	meson setup build-debug --reconfigure --native-file $(NATIVE_FILE)
+	meson setup build-debug --wipe --native-file $(NATIVE_FILE)
 
 release:
 	sed -i "s/^buildtype = .*/buildtype = 'release'/" $(NATIVE_FILE)
 	echo build-release > $(STATE_FILE)
-	meson setup build-release --reconfigure --native-file $(NATIVE_FILE)
+	meson setup build-release --wipe --native-file $(NATIVE_FILE)
 
 build:
 	ninja -C $(BUILD_DIR)

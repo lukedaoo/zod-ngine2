@@ -73,17 +73,17 @@ SUITE(mem) {
         CHECK_EQUAL(after.count, before.count);
     }
 
-    TEST(test_mem_tagged_new_delete) {
+    TEST(test_mem_new_tags_as_new) {
         MemReportSummary before = sys_mem_report(nullptr, 0);
 
-        TestObj* obj            = new (MemTag::NEW) TestObj();
+        TestObj* obj            = new TestObj();
 
         MemReportSummary during = sys_mem_report(nullptr, 0);
         CHECK_EQUAL(
             during.total_bytes_per_tag[MemTag::NEW],
             before.total_bytes_per_tag[MemTag::NEW] + (int)sizeof(TestObj));
 
-        sys_mem_free(obj);
+        delete obj;
 
         MemReportSummary after = sys_mem_report(nullptr, 0);
         CHECK_EQUAL(after.count, before.count);

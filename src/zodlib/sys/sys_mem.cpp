@@ -24,6 +24,9 @@ void sys_mem_free_full(void* ptr, const char* file, const int line) {
 
 #if defined(_DEBUG) && defined(_DEBUG_MEMORY)
 
+#pragma push_macro("new")
+#undef new
+
 void* operator new(std::size_t size) {
     return sys_mem_alloc(size, MemTag::NEW);
 }
@@ -32,12 +35,12 @@ void* operator new[](std::size_t size) {
     return sys_mem_alloc(size, MemTag::NEW);
 }
 
-void* operator new(std::size_t size, MemTag tag) {
-    return sys_mem_alloc(size, tag);
+void* operator new(std::size_t size, const char* file, int line) {
+    return sys_mem_alloc_full(size, MemTag::NEW, file, line);
 }
 
-void* operator new[](std::size_t size, MemTag tag) {
-    return sys_mem_alloc(size, tag);
+void* operator new[](std::size_t size, const char* file, int line) {
+    return sys_mem_alloc_full(size, MemTag::NEW, file, line);
 }
 
 void operator delete(void* ptr) noexcept { sys_mem_free(ptr); }
@@ -48,8 +51,14 @@ void operator delete[](void* ptr) noexcept { sys_mem_free(ptr); }
 
 void operator delete[](void* ptr, std::size_t) noexcept { sys_mem_free(ptr); }
 
-void operator delete(void* ptr, MemTag) noexcept { sys_mem_free(ptr); }
+void operator delete(void* ptr, const char* file, int line) noexcept {
+    sys_mem_free_full(ptr, file, line);
+}
 
-void operator delete[](void* ptr, MemTag) noexcept { sys_mem_free(ptr); }
+void operator delete[](void* ptr, const char* file, int line) noexcept {
+    sys_mem_free_full(ptr, file, line);
+}
+
+#pragma pop_macro("new")
 
 #endif

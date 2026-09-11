@@ -48,12 +48,12 @@ void zAreaManager::reset(zAreaHandle handle) {
     slot.offset = 0;
 }
 
-void zAreaManager::destroy(zAreaHandle handle) {
+void zAreaManager::destroy(zAreaHandle handle, const char* file, int line) {
     assert((unsigned)handle < MAX_AREAS);
     Slot& slot = s_areas[handle];
     assert(slot.used);
 
-    sys_mem_free(slot.block);
+    sys_mem_free_full(slot.block, file, line);
     slot.block    = nullptr;
     slot.capacity = 0;
     slot.offset   = 0;

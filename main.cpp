@@ -25,7 +25,12 @@ int main() {
     std::cout << static_cast<int>(arr2d[0][0]) << "\n";
 
     int raw_arr[] = {1, 2, 3};
+
     func(ARRAY_DEF(raw_arr));
+
+    i32* b = new i32(252);
+    std::cout << static_cast<i32>(*b) << std::endl;
+    sys_mem_free(b);
 
 #if defined(_DEBUG) && defined(_DEBUG_MEMORY)
     sys_mem_set_verbose_logging(true);
@@ -34,7 +39,7 @@ int main() {
     sys_mem_free(buf);
 
     int* single = new int(7);
-    delete single;
+    sys_mem_free(single);
 
     sys_mem_set_verbose_logging(false);
 
@@ -118,16 +123,16 @@ int main() {
         }
     };
 
-    zArea area = sys_mem_area_create(4096, MemTag::GENERAL);
+    zAreaHandle area = sys_mem_area_create(4096, MemTag::GENERAL);
 
-    int*    n  = area.put(42);
-    Vec3*   v  = area.put(Vec3{1.0f, 2.0f, 3.0f});
-    Entity* e  = area.put(Entity(7, "player"));
+    int*    n        = zAreaManager::put(area, 42);
+    Vec3*   v        = zAreaManager::put(area, Vec3{1.0f, 2.0f, 3.0f});
+    Entity* e        = zAreaManager::put(area, Entity(7, "player"));
 
     std::cout << "area: n=" << *n << " v=(" << v->x << "," << v->y << ","
               << v->z << ") e=" << e->id << ":" << e->name << "\n";
 
-    area.destroy();  // frees the whole area's backing block at once
+    sys_mem_area_destroy(area);
 #endif
 
     return 0;
