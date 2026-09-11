@@ -111,3 +111,55 @@ SUITE(zarray) {
         }
     }
 }
+
+SUITE(zread_only_array) {
+    TEST(test_zread_only_array_from_pointer) {
+        int                    raw[3] = {1, 2, 3};
+        zReadOnlyArray<int, 3> view(raw);
+        CHECK_EQUAL(view.num(), 3);
+        CHECK_EQUAL(view[0], 1);
+        CHECK_EQUAL(view[1], 2);
+        CHECK_EQUAL(view[2], 3);
+    }
+
+    TEST(test_zread_only_array_from_zarray) {
+        zArray<int, 3> arr;
+        arr[0] = 4;
+        arr[1] = 5;
+        arr[2] = 6;
+
+        zReadOnlyArray<int, 3> view(arr);
+        CHECK_EQUAL(view.num(), 3);
+        CHECK_EQUAL(view[0], 4);
+        CHECK_EQUAL(view[1], 5);
+        CHECK_EQUAL(view[2], 6);
+    }
+
+    TEST(test_zread_only_array_reflects_source_mutation) {
+        zArray<int, 2> arr;
+        arr[0] = 1;
+        arr[1] = 2;
+
+        zReadOnlyArray<int, 2> view(arr);
+        CHECK_EQUAL(view[0], 1);
+
+        arr[0] = 9;
+        CHECK_EQUAL(view[0], 9);
+    }
+
+    TEST(test_zarray_to_readonly) {
+        zArray<int, 3> arr;
+        arr[0] = 7;
+        arr[1] = 8;
+        arr[2] = 9;
+
+        auto view = arr.to_readonly();
+        CHECK_EQUAL(view.num(), 3);
+        CHECK_EQUAL(view[0], 7);
+        CHECK_EQUAL(view[1], 8);
+        CHECK_EQUAL(view[2], 9);
+
+        arr[0] = 1;
+        CHECK_EQUAL(view[0], 1);
+    }
+}
