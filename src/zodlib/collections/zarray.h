@@ -49,15 +49,10 @@ public:
 #define ARRAY_COUNT(array_name) (sizeof(array_name) / sizeof((array_name)[0]))
 #endif
 
-// e.g.
-// void print(int* array, int count)
-// it can be called as print(ARRAY_CALL(array))
 #ifndef ARRAY_DEF
 #define ARRAY_DEF(array_name) array_name, ARRAY_COUNT(array_name)
 #endif
 
-// @_dim1_: Number of rows
-// @_dim2_: Number of columns
 template <class _type_, int _dim1_, int _dim2_>
 class zArray2D {
     static_assert(_dim1_ > 0 && _dim2_ > 0,
@@ -82,8 +77,6 @@ public:
     }
 };
 
-// Non-owning read-only view over someone else's contiguous data - does
-// not copy, does not own, caller must outlive this view.
 template <class _type_, usize _number_elements_>
 class zReadOnlyArray {
 private:

@@ -15,17 +15,4 @@ endif
 
 executable('zod-ngine2', 'main.cpp', include_directories : inc)
 
-unittest_cpp_dep = dependency('unittest-cpp')
-
-test_files = {
-  'test_zarray' : {'src' : 'tests/test_zarray.cpp', 'suite' : 'zodlib'},
-  'test_defer'  : {'src' : 'tests/test_defer.cpp', 'suite' : 'zodlib'},
-}
-
-foreach test_name, cfg : test_files
-  test_exe = executable(test_name, 'tests/test_main.cpp', cfg['src'],
-    include_directories : inc,
-    dependencies : unittest_cpp_dep,
-  )
-  test(test_name, test_exe, suite : cfg['suite'])
-endforeach
+subdir('tests')
