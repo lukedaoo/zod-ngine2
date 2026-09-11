@@ -13,6 +13,13 @@ test-tag: build
 test-no-build:
 	meson test -C $(BUILD_DIR)
 
+ASAN_DIR := build-asan
+
+test-asan:
+	@test -d $(ASAN_DIR) || meson setup $(ASAN_DIR) --native-file $(NATIVE_FILE) -Db_sanitize=address,undefined
+	ninja -C $(ASAN_DIR)
+	meson test -C $(ASAN_DIR)
+
 CXX := g++
 CXX_STD := c++23
 UNITTEST_VERSION := 2.0.0

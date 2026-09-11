@@ -3,6 +3,12 @@ name: CI
 on:
   push:
   pull_request:
+  workflow_dispatch:
+    inputs:
+      asan:
+        description: 'Run ASan/UBSan test suite'
+        type: boolean
+        default: false
 
 env:
   MESON_VERSION: 1.12.0
@@ -32,3 +38,23 @@ jobs:
 
       - name: Test
         run: make test-no-build
+
+  asan:
+    if: github.event_name == 'workflow_dispatch' && inputs.asan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install build tools
+        run: pip install --break-system-packages meson==${{ env.MESON_VERSION }} ninja
+
+      - name: Cache subprojects
+        uses: actions/cache@v4
+        with:
+          path: |
+            subprojects/packagecache
+            build-asan
+          key: ${{ runner.os }}-meson-asan-${{ hashFiles('meson.build', 'tests/meson.build', 'subprojects/*.wrap', 'native.ini') }}
+
+      - name: Test (ASan/UBSan)
+        run: make test-asan

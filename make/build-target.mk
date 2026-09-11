@@ -18,4 +18,4 @@ compdb: build
 	ninja -C $(BUILD_DIR) -t compdb > compile_commands.json
 
 clean:
-	rm -rf build-debug build-release $(STATE_FILE)
+	rm -rf build-debug build-release build-asan $(STATE_FILE)
