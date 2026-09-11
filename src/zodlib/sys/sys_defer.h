@@ -20,4 +20,5 @@ struct zDeferHelp {
 };
 
 #define defer auto CONCAT(_zdefer_, __LINE__) = zDeferHelp{} + [&]()
-#define defer_fn(fn) auto CONCAT(_zdefer_, __LINE__) = zDeferred{fn}
+#define defer_fn(fn) \
+    auto CONCAT(_zdefer_, __LINE__) = zDeferred { fn }

@@ -13,6 +13,8 @@ if get_option('debug')
   add_project_arguments('-D_DEBUG', language : 'cpp')
 endif
 
-executable('zod-ngine2', 'main.cpp', include_directories : inc)
+zodlib_src = files('src/zodlib/sys/sys_mem.cpp', 'src/zodlib/sys/sys_mem_area.cpp')
+
+executable('zod-ngine2', 'main.cpp', zodlib_src, include_directories : inc)
 
 subdir('tests')

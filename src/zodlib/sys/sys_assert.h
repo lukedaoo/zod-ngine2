@@ -11,7 +11,8 @@ inline void assert_failed(const char* file, int line, const char* expr) {
     std::abort();
 }
 
-// x is dropped entirely in release - never pass an expression with side effects.
+// x is dropped entirely in release - never pass an expression with side
+// effects.
 #if defined(_DEBUG)
 #define zassert(x)                                 \
     {                                              \

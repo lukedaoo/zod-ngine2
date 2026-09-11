@@ -14,5 +14,8 @@ build:
 run: build
 	$(BUILD_DIR)/zod-ngine2
 
+compdb: build
+	ninja -C $(BUILD_DIR) -t compdb > compile_commands.json
+
 clean:
 	rm -rf build-debug build-release $(STATE_FILE)

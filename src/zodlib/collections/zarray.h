@@ -65,7 +65,7 @@ public:
 
     constexpr int byte_size() const { return m_grid.byte_size(); }
 
-    void          zero() { m_grid.zero(); }
+    void zero() { m_grid.zero(); }
 
     constexpr const zArray<_type_, _dim2_>& operator[](int index) const {
         assert((unsigned)index < _dim1_);

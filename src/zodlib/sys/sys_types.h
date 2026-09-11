@@ -2,6 +2,7 @@
 
 #include <cstddef>
 
+// clang-format off
 //
 // Int types
 //
@@ -46,6 +47,8 @@ typedef f32                real32;
 typedef double             f64;
 typedef f64                float64;
 typedef f64                real64;
+
+// clang-format on
 
 #include "../sys/sys_assert.h"
 
