@@ -12,9 +12,7 @@
 
 - Use enums instead of booleans for function parameters.
 
-- Let the reader of the code breathe. Add empty lines between logical blocks of code.
-
-- Add a small, to the point, comment to explain *what* the block does and *why*. Use examples when possible. Propose ASCII drawings to explain complete systems.
+- Let the reader of the code breathe. Add empty lines between logical blocks of code. Add a small, to the point, comment to explain *what* the block does and *why*. Use examples when possible. Propose ASCII drawings to explain complete systems.
 
 - Treat member visibility changes as a breaking design shift. Keep all fields and functions private unless external access is strictly required by the design. Prompt the user for explicit approval before changing any access modifier from private to internal or public.
 
@@ -37,5 +35,6 @@ Rule 5: Use the imperative mood in the subject line (e.g., "Fix bug," "Add featu
 Rule 6: Wrap the body text manually at 72 characters to prevent Git formatting issues.
 Rule 7: Use the body to explain what and why vs. how. Assume the code explains the how;
         the message must explain the context and reasoning. 
+
 
 - If the prompt indicates that a bug is being fixed, don't write the fix right away. First write the test. Observe it failing. Then write the fix. And observe the test passing.        
