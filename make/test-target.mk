@@ -10,6 +10,9 @@ test-suite: build
 test-tag: build
 	meson test -C $(BUILD_DIR) --suite $(SUITE)
 
+test-no-build:
+	meson test -C $(BUILD_DIR)
+
 CXX := g++
 CXX_STD := c++23
 UNITTEST_VERSION := 2.0.0

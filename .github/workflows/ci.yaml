@@ -15,8 +15,19 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y meson ninja-build g++
 
-      - name: Build
+      - name: Cache subprojects
+        uses: actions/cache@v4
+        with:
+          path: |
+            subprojects/packagecache
+            build-debug
+          key: ${{ runner.os }}-meson-${{ hashFiles('meson.build', 'tests/meson.build', 'subprojects/*.wrap', 'native.ini') }}
+
+      - name: Configure
         run: make debug
 
+      - name: Build
+        run: make build
+
       - name: Test
-        run: make test
+        run: make test-no-build
