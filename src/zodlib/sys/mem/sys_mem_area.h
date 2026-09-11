@@ -1,27 +1,9 @@
 #pragma once
 
-#include "sys_mem.h"
-
-#define INVALID_AREA (-1)
+#include "../sys_mem.h"
 
 #ifndef MAX_AREAS
 #define MAX_AREAS 32
-#endif
-
-typedef int zAreaHandle;
-
-zAreaHandle sys_mem_area_create_full(int size, MemTag tag, const char* file,
-                                     int line);
-
-#if defined(_DEBUG) && defined(_DEBUG_MEMORY)
-#define sys_mem_area_create(size, tag) \
-    sys_mem_area_create_full(size, tag, __FILE__, __LINE__)
-#define sys_mem_area_destroy(area) \
-    zAreaManager::destroy((area), __FILE__, __LINE__)
-#else
-#define sys_mem_area_create(size, tag) \
-    sys_mem_area_create_full(size, tag, nullptr, 0)
-#define sys_mem_area_destroy(area) zAreaManager::destroy((area))
 #endif
 
 class zAreaManager {

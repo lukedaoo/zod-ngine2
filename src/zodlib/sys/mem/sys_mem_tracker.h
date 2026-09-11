@@ -1,6 +1,6 @@
 #pragma once
 
-#include "sys_mem.h"
+#include "../sys_mem.h"
 // Only be enabled while debugging
 // In the release build, memory tracking is disabled
 #if defined(_DEBUG) && defined(_DEBUG_MEMORY)
@@ -13,15 +13,6 @@
 #ifndef MAX_TRACKED_ALLOCS
 #define MAX_TRACKED_ALLOCS 8192
 #endif
-
-struct MemRecord {
-    void*       ptr;
-    u32         size;
-    MemTag      tag;
-    const char* file;
-    int         line;
-    bool        used;
-};
 
 struct MemReportEntry {
     void*       ptr;
@@ -37,6 +28,15 @@ struct MemReportSummary {
     u64 total_bytes_per_tag[NUM_MEM_TAGS];
     u64 total_allocations;
     u64 total_deallocations;
+};
+
+struct MemRecord {
+    void*       ptr;
+    u32         size;
+    MemTag      tag;
+    const char* file;
+    int         line;
+    bool        used;
 };
 
 class zMemTracker {

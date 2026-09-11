@@ -1,6 +1,7 @@
 #pragma once
 
 #include "sys_types.h"
+
 enum MemTag : u8 {
 #define MEM_TAG(name) name,
 #include "sys_alloc_tags.h"
@@ -49,3 +50,30 @@ void operator delete[](void* ptr, const char* file, int line) noexcept;
 #endif
 
 class zAreaManager;
+
+#define INVALID_AREA (-1)
+typedef int zAreaHandle;
+
+zAreaHandle sys_mem_area_create_full(int size, MemTag tag, const char* file,
+                                     int line);
+
+// Capture the real call site's __FILE__/__LINE__.
+#if defined(_DEBUG) && defined(_DEBUG_MEMORY)
+#define sys_mem_area_create(size, tag) \
+    sys_mem_area_create_full(size, tag, __FILE__, __LINE__)
+#define sys_mem_area_destroy(area) \
+    zAreaManager::destroy((area), __FILE__, __LINE__)
+#else
+#define sys_mem_area_create(size, tag) \
+    sys_mem_area_create_full(size, tag, nullptr, 0)
+#define sys_mem_area_destroy(area) zAreaManager::destroy((area))
+#endif
+
+#if defined(_DEBUG) && defined(_DEBUG_MEMORY)
+class zMemTracker;
+struct MemReportEntry;
+struct MemReportSummary;
+MemReportSummary sys_mem_report(MemReportEntry* out_entries, int capacity);
+void             sys_mem_set_verbose_logging(bool enabled);
+
+#endif

@@ -1,4 +1,4 @@
-#include "../precompiled.h"
+#include "../../precompiled.h"
 
 zAreaManager::Slot zAreaManager::s_areas[MAX_AREAS] = {};
 
