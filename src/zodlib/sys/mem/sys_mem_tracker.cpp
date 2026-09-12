@@ -3,10 +3,10 @@
 #if defined(_DEBUG) && defined(_DEBUG_MEMORY)
 
 MemRecord  zMemTracker::s_records[MAX_TRACKED_ALLOCS] = {};
-std::mutex zMemTracker::s_mutex;
-u64        zMemTracker::s_total_allocations   = 0;
-u64        zMemTracker::s_total_deallocations = 0;
-bool       zMemTracker::s_verbose_logging     = false;
+std::mutex zMemTracker::s_mutex{};
+u64        zMemTracker::s_total_allocations{0};
+u64        zMemTracker::s_total_deallocations{0};
+bool       zMemTracker::s_verbose_logging{false};
 
 void* zMemTracker::alloc(int size, MemTag tag, const char* file, int line) {
     void* ptr = std::malloc(size);
@@ -58,7 +58,7 @@ void zMemTracker::free(void* ptr, const char* file, int line) {
     for (usize i = 0; i < MAX_TRACKED_ALLOCS; ++i) {
         if (s_records[i].used && s_records[i].ptr == ptr) {
             if (s_verbose_logging) {
-                std::fprintf(stdout, "FREE  %p size=%u tag=%d %s:%d\n", ptr,
+                std::fprintf(stdout, "FREE %p size=%u tag=%d %s:%d\n", ptr,
                              s_records[i].size, s_records[i].tag, file, line);
             }
             s_records[i] = {};

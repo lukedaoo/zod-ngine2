@@ -8,7 +8,7 @@
 // @todo(sys_mem):
 // 1. Have options to enable/disable memory tracking at runtime
 // 2. Have options to track all allocations or just tracked upto
-// @MAX_TRACKED_ALLOCS. Potential solution: Use a circular bufferA
+// @MAX_TRACKED_ALLOCS. Potential solution: Use a circular buffer
 // 3. Have options to enable/disable verbose logging
 #ifndef MAX_TRACKED_ALLOCS
 #define MAX_TRACKED_ALLOCS 8192

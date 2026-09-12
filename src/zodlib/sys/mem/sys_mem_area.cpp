@@ -4,7 +4,7 @@ zAreaManager::Slot zAreaManager::s_areas[MAX_AREAS] = {};
 
 zAreaHandle zAreaManager::create(int size, MemTag tag, const char* file,
                                  int line) {
-    for (int i = 0; i < MAX_AREAS; ++i) {
+    for (usize i = 0; i < MAX_AREAS; ++i) {
         if (s_areas[i].used) {
             continue;
         }
@@ -22,6 +22,7 @@ zAreaHandle zAreaManager::create(int size, MemTag tag, const char* file,
 
 void* zAreaManager::alloc(zAreaHandle handle, int size, int alignment) {
     assert((unsigned)handle < MAX_AREAS);
+    assert(size >= 0);
     Slot& slot = s_areas[handle];
     assert(slot.used);
 

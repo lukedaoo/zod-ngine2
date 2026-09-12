@@ -34,6 +34,9 @@ int main() {
 
 #if defined(_DEBUG) && defined(_DEBUG_MEMORY)
     sys_mem_set_verbose_logging(true);
+    i32* c = new i32(99);
+    std::cout << static_cast<i32>(*c) << std::endl;
+    delete c;
 
     void* buf = sys_mem_alloc(64, MemTag::GENERAL);
     sys_mem_free(buf);

@@ -2,6 +2,7 @@
 
 void* sys_mem_alloc_full(const int size, const MemTag tag, const char* file,
                          const int line) {
+    assert(size >= 0);
 #if defined(_DEBUG) && defined(_DEBUG_MEMORY)
     return zMemTracker::alloc(size, tag, file, line);
 #else
@@ -43,13 +44,32 @@ void* operator new[](std::size_t size, const char* file, int line) {
     return sys_mem_alloc_full(size, MemTag::NEW, file, line);
 }
 
-void operator delete(void* ptr) noexcept { sys_mem_free(ptr); }
+static void warn_delete_no_location(void* ptr) {
+    std::fprintf(stderr,
+                 "sys_mem: `delete` used on %p - no call site info, prefer "
+                 "sys_mem_free() instead\n",
+                 ptr);
+}
 
-void operator delete(void* ptr, std::size_t) noexcept { sys_mem_free(ptr); }
+void operator delete(void* ptr) noexcept {
+    warn_delete_no_location(ptr);
+    sys_mem_free(ptr);
+}
 
-void operator delete[](void* ptr) noexcept { sys_mem_free(ptr); }
+void operator delete(void* ptr, std::size_t) noexcept {
+    warn_delete_no_location(ptr);
+    sys_mem_free(ptr);
+}
 
-void operator delete[](void* ptr, std::size_t) noexcept { sys_mem_free(ptr); }
+void operator delete[](void* ptr) noexcept {
+    warn_delete_no_location(ptr);
+    sys_mem_free(ptr);
+}
+
+void operator delete[](void* ptr, std::size_t) noexcept {
+    warn_delete_no_location(ptr);
+    sys_mem_free(ptr);
+}
 
 void operator delete(void* ptr, const char* file, int line) noexcept {
     sys_mem_free_full(ptr, file, line);

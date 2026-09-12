@@ -18,7 +18,8 @@ private:
     // @todo: auto grow
     static Slot s_areas[MAX_AREAS];
 public:
-    static zAreaHandle create(int size, MemTag tag, const char* file, int line);
+    static zAreaHandle create(int size, MemTag tag, const char* file = nullptr,
+                              int line = 0);
     static void*       alloc(zAreaHandle handle, int size, int alignment);
     static void        reset(zAreaHandle handle);
     static void        destroy(zAreaHandle handle, const char* file = nullptr,
