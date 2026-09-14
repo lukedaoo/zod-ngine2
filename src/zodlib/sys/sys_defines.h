@@ -1,7 +1,7 @@
 #pragma once
 
 #define MAX_STRING_CHARS        1024
-#define MAX_PRINT_MESSAGE_CHARS (1024 * 10)
+#define MAX_PRINT_MESSAGE_CHARS (MAX_STRING_CHARS * 2)
 
 #if defined(_DEBUG)
 // On debug builds, zero out memory has a different value OxCD
@@ -13,4 +13,4 @@
 #define CONCAT_(a, b) a##b
 #define CONCAT(a, b)  CONCAT_(a, b)
 
-#define LOCATION __FILE__, __LINE__
+#define LOCATION      __FILE__, __LINE__

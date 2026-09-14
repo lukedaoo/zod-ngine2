@@ -47,13 +47,14 @@ SUITE(zlogger) {
         std::remove(path);
     }
 
-    TEST(test_zlogger_truncates_long_message) {
-        const char* path = "test_zlogger_truncate.log";
+    TEST(test_zlogger_writes_long_message_in_full) {
+        const char* path    = "test_zlogger_long.log";
+        const int   msg_len = MAX_STRING_CHARS * 10;
         {
             zLogger log(path);
-            char    long_msg[MAX_PRINT_MESSAGE_CHARS + 1000];
-            std::memset(long_msg, 'a', sizeof(long_msg) - 1);
-            long_msg[sizeof(long_msg) - 1] = '\0';
+            char    long_msg[msg_len + 1];
+            std::memset(long_msg, 'a', msg_len);
+            long_msg[msg_len] = '\0';
             log.info("%s", long_msg);
         }
 
@@ -63,7 +64,7 @@ SUITE(zlogger) {
         long size = std::ftell(f);
         std::fclose(f);
 
-        CHECK(size < MAX_PRINT_MESSAGE_CHARS + 100);
+        CHECK(size >= msg_len);
 
         std::remove(path);
     }

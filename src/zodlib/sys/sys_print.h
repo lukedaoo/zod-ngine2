@@ -4,9 +4,7 @@
 #include "sys_includes.h"
 
 inline void sys_vfprint(FILE* stream, const char* fmt, va_list args) {
-    char buf[MAX_PRINT_MESSAGE_CHARS];
-    std::vsnprintf(buf, sizeof(buf), fmt, args);
-    std::fputs(buf, stream);
+    std::vfprintf(stream, fmt, args);
 }
 
 inline void sys_fprint(FILE* stream, const char* fmt, ...) {
