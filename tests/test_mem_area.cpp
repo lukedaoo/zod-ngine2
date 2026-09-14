@@ -85,14 +85,17 @@ SUITE(mem_area) {
         CHECK_EQUAL(zAreaManager::get_free(INVALID_AREA), -1);
     }
 
-    TEST(test_mem_area_reset_reuses_offset) {
+    TEST(test_mem_area_reset_resets_offset_counter) {
         zAreaHandle area = sys_mem_area_create(256, MemTag::GENERAL);
 
-        void* first = zAreaManager::put(area, 1);
-        zAreaManager::reset(area);
-        void* second = zAreaManager::put(area, 2);
+        zAreaManager::put(area, 1);
+        int size_before_reset = zAreaManager::get_size(area);
 
-        CHECK_EQUAL(first, second);
+        zAreaManager::reset(area);
+        zAreaManager::put(area, 2);
+        int size_after_reset = zAreaManager::get_size(area);
+
+        CHECK_EQUAL(size_before_reset, size_after_reset);
 
         sys_mem_area_destroy(area);
     }

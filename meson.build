@@ -17,6 +17,7 @@ zodlib_src = files(
   'src/zodlib/sys/mem/sys_mem.cpp',
   'src/zodlib/sys/mem/sys_mem_area.cpp',
   'src/zodlib/sys/mem/sys_mem_tracker.cpp',
+  'src/zodlib/container/zlogger.cpp',
 )
 
 executable('zod-ngine2', 'main.cpp', zodlib_src, include_directories : inc)

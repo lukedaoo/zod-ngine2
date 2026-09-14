@@ -7,3 +7,9 @@ subprojects/*/
 *.o
 
 compile_commands.json
+
+demo/*
+!demo/*.cpp
+!demo/*.h
+
+*.log

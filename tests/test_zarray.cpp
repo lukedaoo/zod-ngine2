@@ -1,6 +1,6 @@
 #include <UnitTest++/UnitTest++.h>
 
-#include "zodlib/collections/zarray.h"
+#include "zodlib/container/collections/zarray.h"
 
 SUITE(zarray) {
     TEST(test_zarray) {

@@ -12,3 +12,5 @@
 
 #define CONCAT_(a, b) a##b
 #define CONCAT(a, b)  CONCAT_(a, b)
+
+#define LOCATION __FILE__, __LINE__

@@ -3,25 +3,36 @@
 #include "sys_defines.h"
 #include "sys_includes.h"
 
+inline void sys_vfprint(FILE* stream, const char* fmt, va_list args) {
+    char buf[MAX_PRINT_MESSAGE_CHARS];
+    std::vsnprintf(buf, sizeof(buf), fmt, args);
+    std::fputs(buf, stream);
+}
+
+inline void sys_fprint(FILE* stream, const char* fmt, ...) {
+    va_list args;
+    va_start(args, fmt);
+    sys_vfprint(stream, fmt, args);
+    va_end(args);
+}
+
 // internal — use the sys_print() macro instead, not called directly
 #if defined(_DEBUG)
 inline void sys_print_internal(const char* file, int line, const char* fmt,
                                ...) {
-    char    buf[MAX_PRINT_MESSAGE_CHARS];
     va_list args;
     va_start(args, fmt);
-    std::vsnprintf(buf, sizeof(buf), fmt, args);
+    sys_vfprint(stdout, fmt, args);
     va_end(args);
-    std::fprintf(stdout, "%s %s:%d\n", buf, file, line);
+    std::fprintf(stdout, " %s:%d\n", file, line);
 }
 #else
 inline void sys_print_internal(const char* fmt, ...) {
-    char    buf[MAX_PRINT_MESSAGE_CHARS];
     va_list args;
     va_start(args, fmt);
-    std::vsnprintf(buf, sizeof(buf), fmt, args);
+    sys_vfprint(stdout, fmt, args);
     va_end(args);
-    std::fputs(buf, stdout);
+    std::fputc('\n', stdout);
 }
 #endif
 
@@ -36,21 +47,21 @@ inline void sys_print_internal(const char* fmt, ...) {
 #if defined(_DEBUG)
 inline void sys_print_error_internal(const char* tag, const char* file,
                                      int line, const char* fmt, ...) {
-    char    buf[MAX_PRINT_MESSAGE_CHARS];
+    std::fprintf(stderr, "[%s] ", tag);
     va_list args;
     va_start(args, fmt);
-    std::vsnprintf(buf, sizeof(buf), fmt, args);
+    sys_vfprint(stderr, fmt, args);
     va_end(args);
-    std::fprintf(stderr, "[%s] %s %s:%d\n", tag, buf, file, line);
+    std::fprintf(stderr, " %s:%d\n", file, line);
 }
 #else
 inline void sys_print_error_internal(const char* tag, const char* fmt, ...) {
-    char    buf[MAX_PRINT_MESSAGE_CHARS];
+    std::fprintf(stderr, "[%s] ", tag);
     va_list args;
     va_start(args, fmt);
-    std::vsnprintf(buf, sizeof(buf), fmt, args);
+    sys_vfprint(stderr, fmt, args);
     va_end(args);
-    std::fprintf(stderr, "[%s] %s", tag, buf);
+    std::fputc('\n', stderr);
 }
 #endif
 
