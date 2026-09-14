@@ -45,10 +45,10 @@ void* operator new[](std::size_t size, const char* file, int line) {
 }
 
 static void warn_delete_no_location(void* ptr) {
-    std::fprintf(stderr,
-                 "sys_mem: `delete` used on %p - no call site info, prefer "
-                 "sys_mem_free() instead\n",
-                 ptr);
+    sys_print(
+        "sys_mem: `delete` used on %p - no call site info, prefer "
+        "sys_mem_free() instead",
+        ptr);
 }
 
 void operator delete(void* ptr) noexcept {

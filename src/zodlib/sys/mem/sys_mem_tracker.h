@@ -11,7 +11,7 @@
 // @MAX_TRACKED_ALLOCS. Potential solution: Use a circular buffer
 // 3. Have options to enable/disable verbose logging
 #ifndef MAX_TRACKED_ALLOCS
-#define MAX_TRACKED_ALLOCS 8192
+#define MAX_TRACKED_ALLOCS 8192 * 10
 #endif
 
 struct MemReportEntry {

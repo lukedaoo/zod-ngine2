@@ -32,16 +32,16 @@ void* zMemTracker::alloc(int size, MemTag tag, const char* file, int line) {
     if (!tracked) {
         static bool warned = false;
         if (!warned) {
-            std::fprintf(stderr,
-                         "zMemTracker: MAX_TRACKED_ALLOCS exceeded, tracking "
-                         "disabled for new allocations\n");
+            sys_error("zMemTracker",
+                     "MAX_TRACKED_ALLOCS exceeded, tracking disabled for new "
+                     "allocations");
             warned = true;
         }
     }
 
     if (s_verbose_logging) {
-        std::fprintf(stdout, "ALLOC %p size=%d tag=%d %s:%d\n", ptr, size, tag,
-                     file, line);
+        sys_fprint(stdout, "ALLOC %p size=%d tag=%d %s:%d\n", ptr, size, tag,
+                  file, line);
     }
 
     return ptr;
@@ -58,8 +58,8 @@ void zMemTracker::free(void* ptr, const char* file, int line) {
     for (usize i = 0; i < MAX_TRACKED_ALLOCS; ++i) {
         if (s_records[i].used && s_records[i].ptr == ptr) {
             if (s_verbose_logging) {
-                std::fprintf(stdout, "FREE %p size=%u tag=%d %s:%d\n", ptr,
-                             s_records[i].size, s_records[i].tag, file, line);
+                sys_fprint(stdout, "FREE %p size=%u tag=%d %s:%d\n", ptr,
+                          s_records[i].size, s_records[i].tag, file, line);
             }
             s_records[i] = {};
             break;
@@ -113,11 +113,11 @@ bool zMemTracker::detect_leaks() {
     MemReportSummary summary = report(entries, 256);
 
     for (int i = 0; i < summary.count; ++i) {
-        std::fprintf(stderr, "LEAK: %u bytes at %s:%d\n", entries[i].size,
-                     entries[i].file, entries[i].line);
+        sys_fprint(stderr, "[zMemTracker] LEAK: %u bytes at %s:%d\n",
+                  entries[i].size, entries[i].file, entries[i].line);
     }
     if (summary.count < probe.count) {
-        std::fprintf(stderr, "... and %d more\n", probe.count - summary.count);
+        sys_error("zMemTracker", "... and %d more", probe.count - summary.count);
     }
 
     return true;
