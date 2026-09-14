@@ -12,6 +12,7 @@ zAreaHandle zAreaManager::create(int size, MemTag tag, const char* file,
         s_areas[i].block    = sys_mem_alloc_full(size, tag, file, line);
         s_areas[i].capacity = size;
         s_areas[i].offset   = 0;
+        s_areas[i].tag      = tag;
         s_areas[i].used     = true;
 
         return i;
@@ -40,12 +41,14 @@ void* zAreaManager::alloc(zAreaHandle handle, int size, int alignment) {
     return ptr;
 }
 
-void zAreaManager::reset(zAreaHandle handle) {
+void zAreaManager::reset(zAreaHandle handle, const char* file, int line) {
     assert((unsigned)handle < MAX_AREAS);
     Slot& slot = s_areas[handle];
     assert(slot.used);
 
     std::lock_guard<std::mutex> lock(slot.mutex);
+    sys_mem_free_full(slot.block, file, line);
+    slot.block  = sys_mem_alloc_full(slot.capacity, slot.tag, file, line);
     slot.offset = 0;
 }
 

@@ -54,8 +54,8 @@ class zAreaManager;
 #define INVALID_AREA (-1)
 typedef int zAreaHandle;
 
-zAreaHandle sys_mem_area_create_full(int size, MemTag tag, const char* file,
-                                     int line);
+zAreaHandle sys_mem_area_create_full(int size, MemTag tag = MemTag::AREA, const char* file = nullptr,
+                                     int line = 0);
 
 // Capture the real call site's __FILE__/__LINE__.
 #if defined(_DEBUG) && defined(_DEBUG_MEMORY)

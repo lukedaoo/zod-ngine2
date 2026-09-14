@@ -12,6 +12,7 @@ private:
         void*      block;
         int        capacity;
         int        offset;
+        MemTag     tag;
         std::mutex mutex;
         bool       used;
     };
@@ -21,7 +22,9 @@ public:
     static zAreaHandle create(int size, MemTag tag, const char* file = nullptr,
                               int line = 0);
     static void*       alloc(zAreaHandle handle, int size, int alignment);
-    static void        reset(zAreaHandle handle);
+    // frees and reallocates the block, invalidating all previous pointers into it
+    static void        reset(zAreaHandle handle, const char* file = nullptr,
+                             int line = 0);
     static void        destroy(zAreaHandle handle, const char* file = nullptr,
                                int line = 0);
     static bool        is_valid(zAreaHandle handle);

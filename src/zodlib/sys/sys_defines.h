@@ -1,7 +1,7 @@
 #pragma once
 
 #define MAX_STRING_CHARS        1024
-#define MAX_PRINT_MESSAGE_CHARS 1024 * 10
+#define MAX_PRINT_MESSAGE_CHARS (1024 * 10)
 
 #if defined(_DEBUG)
 // On debug builds, zero out memory has a different value OxCD
