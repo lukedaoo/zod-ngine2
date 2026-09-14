@@ -3,37 +3,37 @@
 
 void func(const int* arr, int size) {
     for (int i = 0; i < size; ++i) {
-        sys_print("%d", arr[i]);
+        sys_std_print("%d", arr[i]);
     }
 }
 
 int main() {
     i8 a = 12;
 
-    sys_print("%d", static_cast<int>(a));
+    sys_std_print("%d", static_cast<int>(a));
 
     zArray<int, 10> arr;
 
     arr[0] = 12;
-    sys_print("%d", static_cast<int>(arr[0]));
+    sys_std_print("%d", static_cast<int>(arr[0]));
 
     zArray2D<int, 10, 10> arr2d;
     arr2d[0][0] = 13;
 
-    sys_print("%d", static_cast<int>(arr2d[0][0]));
+    sys_std_print("%d", static_cast<int>(arr2d[0][0]));
 
     int raw_arr[] = {1, 2, 3};
 
     func(ARRAY_DEF(raw_arr));
 
     i32* b = new i32(252);
-    sys_print("%d", static_cast<i32>(*b));
+    sys_std_print("%d", static_cast<i32>(*b));
     sys_mem_free(b);
 
 #if defined(_DEBUG) && defined(_DEBUG_MEMORY)
     sys_mem_set_verbose_logging(true);
     i32* c = new i32(99);
-    sys_print("%d", static_cast<i32>(*c));
+    sys_std_print("%d", static_cast<i32>(*c));
     delete c;
 
     void* buf = sys_mem_alloc(64, MemTag::GENERAL);
@@ -47,14 +47,14 @@ int main() {
     MemReportEntry   entries[16];
     MemReportSummary summary = sys_mem_report(entries, 16);
 
-    sys_print(
+    sys_std_print(
         "live=%d total_bytes=%d total_allocations=%d total_deallocations=%d",
         summary.count, summary.total_bytes, summary.total_allocations,
         summary.total_deallocations);
     for (int i = 0; i < summary.count; ++i) {
-        sys_print("  %p size=%d tag=%d %s:%d", entries[i].ptr,
-                  entries[i].size, (int)entries[i].tag, entries[i].file,
-                  entries[i].line);
+        sys_std_print("  %p size=%d tag=%d %s:%d", entries[i].ptr,
+                      entries[i].size, (int)entries[i].tag, entries[i].file,
+                      entries[i].line);
     }
 
     void* live_ptrs[10] = {};
@@ -72,7 +72,7 @@ int main() {
 
         if (cycle % 250 == 0) {
             MemReportSummary s = sys_mem_report(nullptr, 0);
-            sys_print(
+            sys_std_print(
                 "cycle=%d live=%d total_bytes=%d "
                 "total_bytes_per_tag[GENERAL]=%d "
                 "total_bytes_per_tag[NEW]=%d total_allocations=%d "
@@ -89,7 +89,7 @@ int main() {
     }
 
     MemReportSummary final_summary = sys_mem_report(nullptr, 0);
-    sys_print(
+    sys_std_print(
         "final: live=%d total_bytes=%d total_allocations=%d "
         "total_deallocations=%d",
         final_summary.count, final_summary.total_bytes,
@@ -111,7 +111,7 @@ int main() {
     *block_c         = 3;
     *block_d         = 4;
 
-    sys_print("block: %d %d %d %d", *block_a, *block_b, *block_c, *block_d);
+    sys_std_print("block: %d %d %d %d", *block_a, *block_b, *block_c, *block_d);
 
     sys_mem_free(block);  // one free for the whole block, not per value
 
@@ -136,8 +136,8 @@ int main() {
     Vec3*   v        = zAreaManager::put(area, Vec3{1.0f, 2.0f, 3.0f});
     Entity* e        = zAreaManager::put(area, Entity(7, "player"));
 
-    sys_print("area: n=%d v=(%f,%f,%f) e=%d:%s", *n, v->x, v->y, v->z, e->id,
-              e->name);
+    sys_std_print("area: n=%d v=(%f,%f,%f) e=%d:%s", *n, v->x, v->y, v->z,
+                  e->id, e->name);
 
     sys_mem_area_destroy(area);
 

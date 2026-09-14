@@ -32,16 +32,17 @@ void* zMemTracker::alloc(int size, MemTag tag, const char* file, int line) {
     if (!tracked) {
         static bool warned = false;
         if (!warned) {
-            sys_error("zMemTracker",
-                     "MAX_TRACKED_ALLOCS exceeded, tracking disabled for new "
-                     "allocations");
+            sys_std_error(
+                "zMemTracker",
+                "MAX_TRACKED_ALLOCS exceeded, tracking disabled for new "
+                "allocations");
             warned = true;
         }
     }
 
     if (s_verbose_logging) {
         sys_fprint(stdout, "ALLOC %p size=%d tag=%d %s:%d\n", ptr, size, tag,
-                  file, line);
+                   file, line);
     }
 
     return ptr;
@@ -59,7 +60,7 @@ void zMemTracker::free(void* ptr, const char* file, int line) {
         if (s_records[i].used && s_records[i].ptr == ptr) {
             if (s_verbose_logging) {
                 sys_fprint(stdout, "FREE %p size=%u tag=%d %s:%d\n", ptr,
-                          s_records[i].size, s_records[i].tag, file, line);
+                           s_records[i].size, s_records[i].tag, file, line);
             }
             s_records[i] = {};
             break;
@@ -114,10 +115,11 @@ bool zMemTracker::detect_leaks() {
 
     for (int i = 0; i < summary.count; ++i) {
         sys_fprint(stderr, "[zMemTracker] LEAK: %u bytes at %s:%d\n",
-                  entries[i].size, entries[i].file, entries[i].line);
+                   entries[i].size, entries[i].file, entries[i].line);
     }
     if (summary.count < probe.count) {
-        sys_error("zMemTracker", "... and %d more", probe.count - summary.count);
+        sys_std_error("zMemTracker", "... and %d more",
+                      probe.count - summary.count);
     }
 
     return true;

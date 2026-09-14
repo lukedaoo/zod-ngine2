@@ -3,7 +3,7 @@
 
 int main() {
     // --- sys_print / sys_error: free functions, no level, no timestamp ---
-    sys_print("sys_print: plain message %d", 1);
+    sys_std_print("sys_print: plain message %d", 1);
     sys_error("net", "sys_error: tagged message %d", 2);
 
     // --- zLogger: stateful, leveled, timestamped ---

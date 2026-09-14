@@ -27,8 +27,8 @@ zLogger::zLogger() : m_stream(stdout), m_min_level(LogLevel::TRACE) {}
 zLogger::zLogger(const char* filename)
     : m_stream(std::fopen(filename, "a")), m_min_level(LogLevel::TRACE) {
     if (!m_stream) {
-        sys_error("zLogger", "failed to open '%s', falling back to stdout",
-                  filename);
+        sys_std_error("zLogger", "failed to open '%s', falling back to stdout",
+                      filename);
         m_stream = stdout;
     }
 }
